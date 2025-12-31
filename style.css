@@ -579,3 +579,342 @@ main {
     font-size: 0.7rem;
   }
 }
+
+/* ============================================
+   DAILY DOUBLE - REVEAL MODAL
+   ============================================ */
+.dd-reveal-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: ddFadeIn 0.3s ease;
+}
+
+@keyframes ddFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dd-reveal-content {
+  text-align: center;
+  animation: ddBounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes ddBounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.dd-stars {
+  font-size: 2rem;
+  color: var(--goldClr);
+  margin: 10px 0;
+  animation: ddStarPulse 1s ease infinite;
+}
+
+@keyframes ddStarPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+.dd-title {
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 900;
+  background: linear-gradient(90deg, #ffd700, #ff8c00, #ffd700);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: ddShine 2s linear infinite;
+  text-shadow: none;
+  margin: 0;
+  letter-spacing: 4px;
+}
+
+@keyframes ddShine {
+  to { background-position: 200% center; }
+}
+
+.dd-subtitle {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 30px 0 20px;
+}
+
+.dd-team-select {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.dd-team-btn {
+  padding: 15px 35px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: var(--myFont);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.dd-team-btn:hover {
+  transform: scale(1.1);
+  border-color: var(--goldClr);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+}
+
+/* ============================================
+   DAILY DOUBLE - WAGER MODAL
+   ============================================ */
+.dd-wager-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.dd-wager-content {
+  background: linear-gradient(145deg, #1e3a5f, #16213e);
+  padding: 40px 50px;
+  border-radius: 20px;
+  text-align: center;
+  color: var(--accLight);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.3);
+  max-width: 450px;
+  width: 90%;
+  border: 3px solid var(--goldClr);
+}
+
+.dd-wager-title {
+  font-size: 1.8rem;
+  margin: 0 0 20px;
+  color: var(--goldClr);
+}
+
+.dd-wager-team {
+  display: inline-block;
+  padding: 10px 25px;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.dd-wager-info {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+
+.dd-wager-info p {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+.dd-wager-info span {
+  color: var(--goldClr);
+  font-weight: 700;
+}
+
+.dd-wager-input-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+
+.dd-dollar-sign {
+  font-size: 2rem;
+  color: var(--goldClr);
+  font-weight: 700;
+}
+
+.dd-wager-input {
+  width: 150px;
+  padding: 15px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-family: var(--myFont);
+  border: 3px solid var(--goldClr);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--goldClr);
+  text-align: center;
+}
+
+.dd-wager-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Hide number input spinners */
+.dd-wager-input::-webkit-outer-spin-button,
+.dd-wager-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.dd-wager-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.dd-quick-wagers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.dd-quick-btn {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-family: var(--myFont);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dd-quick-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: var(--goldClr);
+  color: var(--goldClr);
+}
+
+.dd-confirm-btn {
+  padding: 15px 50px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: var(--myFont);
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #ffd700, #ffb700);
+  color: #1a1a2e;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.dd-confirm-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+}
+
+/* ============================================
+   DAILY DOUBLE - QUESTION BADGE
+   ============================================ */
+.dd-badge {
+  display: none;
+  background: linear-gradient(90deg, #ffd700, #ff8c00);
+  color: #1a1a2e;
+  padding: 8px 25px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  animation: ddBadgePulse 1.5s ease infinite;
+}
+
+@keyframes ddBadgePulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+  50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
+}
+
+/* ============================================
+   DAILY DOUBLE - SCORING SECTION
+   ============================================ */
+.dd-scoring-section {
+  display: none;
+  width: 100%;
+  text-align: center;
+  padding-top: 20px;
+  border-top: 2px solid rgba(255, 215, 0, 0.3);
+  animation: fadeIn 0.5s ease;
+}
+
+.dd-scoring-prompt {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dd-scoring-prompt span {
+  color: var(--goldClr);
+  font-weight: 700;
+}
+
+.dd-result-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.dd-result-btn {
+  padding: 15px 35px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: var(--myFont);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dd-result-btn.correct {
+  background: linear-gradient(145deg, #27ae60, #1e8449);
+  color: white;
+}
+
+.dd-result-btn.correct:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(39, 174, 96, 0.4);
+}
+
+.dd-result-btn.wrong {
+  background: linear-gradient(145deg, #c0392b, #96281b);
+  color: white;
+}
+
+.dd-result-btn.wrong:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(192, 57, 43, 0.4);
+}
+
+.dd-result-btn span {
+  font-weight: 400;
+}

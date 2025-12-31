@@ -33,6 +33,42 @@
       </div>
     </div>
 
+    <!-- Daily Double Reveal Modal -->
+    <div class="dd-reveal-modal" id="ddRevealModal">
+      <div class="dd-reveal-content">
+        <div class="dd-stars">✦ ✦ ✦</div>
+        <h1 class="dd-title">DAILY DOUBLE!</h1>
+        <div class="dd-stars">✦ ✦ ✦</div>
+        <p class="dd-subtitle">Who found it?</p>
+        <div class="dd-team-select" id="ddTeamSelect">
+          <!-- Team selection buttons will be generated here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily Double Wager Modal -->
+    <div class="dd-wager-modal" id="ddWagerModal">
+      <div class="dd-wager-content">
+        <h2 class="dd-wager-title">Make Your Wager</h2>
+        <div class="dd-wager-team" id="ddWagerTeam">Team Name</div>
+        <div class="dd-wager-info">
+          <p>Current Score: <span id="ddCurrentScore">$0</span></p>
+          <p>Maximum Wager: <span id="ddMaxWager">$400</span></p>
+        </div>
+        <div class="dd-wager-input-group">
+          <span class="dd-dollar-sign">$</span>
+          <input type="number" id="ddWagerInput" min="5" value="100" class="dd-wager-input">
+        </div>
+        <div class="dd-quick-wagers">
+          <button class="dd-quick-btn" data-amount="100">$100</button>
+          <button class="dd-quick-btn" data-amount="500">$500</button>
+          <button class="dd-quick-btn" data-amount="1000">$1000</button>
+          <button class="dd-quick-btn" data-amount="max">ALL IN!</button>
+        </div>
+        <button id="ddConfirmWager" class="dd-confirm-btn">Lock In Wager</button>
+      </div>
+    </div>
+
     <!-- Scoreboard -->
     <div class="scoreboard" id="scoreboard">
       <!-- Team scores will be generated here -->
@@ -47,6 +83,7 @@
       
       <!-- Question Modal -->
       <div class="qDiv" id="qDiv">
+        <div class="dd-badge" id="ddBadge">⭐ DAILY DOUBLE ⭐</div>
         <div class="question-value" id="questionValue">$100</div>
         <h1 id="qText">Question goes here</h1>
         
@@ -64,6 +101,15 @@
             <!-- Team scoring buttons will be generated here -->
           </div>
           <button id="noPointsBtn" class="no-points-btn">No One Got It</button>
+        </div>
+
+        <!-- Daily Double Scoring (different from regular) -->
+        <div class="dd-scoring-section" id="ddScoringSection">
+          <p class="dd-scoring-prompt">Did <span id="ddTeamNameDisplay">Team</span> get it right?</p>
+          <div class="dd-result-buttons">
+            <button id="ddCorrectBtn" class="dd-result-btn correct">✓ Correct! (+<span id="ddWinAmount">$0</span>)</button>
+            <button id="ddWrongBtn" class="dd-result-btn wrong">✗ Wrong (-<span id="ddLoseAmount">$0</span>)</button>
+          </div>
         </div>
         
         <button id="closeBtn" class="close-btn">Close</button>

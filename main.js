@@ -5,6 +5,10 @@ let teams = [];
 let currentQuestion = null;
 let currentValue = 0;
 let answeredQuestions = new Set();
+let dailyDoubles = new Set(); // Card IDs that are Daily Doubles
+let isDailyDouble = false;
+let ddSelectedTeam = null;
+let ddWagerAmount = 0;
 
 // ============================================
 // DOM ELEMENTS
@@ -27,6 +31,23 @@ const sourceLink = document.querySelector("#sourceLink");
 const scoringSection = document.querySelector("#scoringSection");
 const teamButtons = document.querySelector("#teamButtons");
 const noPointsBtn = document.querySelector("#noPointsBtn");
+
+// Daily Double elements
+const ddRevealModal = document.querySelector("#ddRevealModal");
+const ddTeamSelect = document.querySelector("#ddTeamSelect");
+const ddWagerModal = document.querySelector("#ddWagerModal");
+const ddWagerTeam = document.querySelector("#ddWagerTeam");
+const ddCurrentScore = document.querySelector("#ddCurrentScore");
+const ddMaxWager = document.querySelector("#ddMaxWager");
+const ddWagerInput = document.querySelector("#ddWagerInput");
+const ddConfirmWager = document.querySelector("#ddConfirmWager");
+const ddBadge = document.querySelector("#ddBadge");
+const ddScoringSection = document.querySelector("#ddScoringSection");
+const ddTeamNameDisplay = document.querySelector("#ddTeamNameDisplay");
+const ddWinAmount = document.querySelector("#ddWinAmount");
+const ddLoseAmount = document.querySelector("#ddLoseAmount");
+const ddCorrectBtn = document.querySelector("#ddCorrectBtn");
+const ddWrongBtn = document.querySelector("#ddWrongBtn");
 
 // ============================================
 // TEAM SETUP
@@ -146,6 +167,157 @@ function awardPoints(teamIndex) {
 }
 
 // ============================================
+// DAILY DOUBLE LOGIC
+// ============================================
+function initializeDailyDoubles() {
+  // Randomly select 2 questions to be Daily Doubles
+  // Prefer higher value questions ($200-$400)
+  const eligibleCards = [];
+  for (let i = 0; i < 24; i++) {
+    eligibleCards.push(`card-${i}`);
+  }
+  
+  // Shuffle and pick 2
+  const shuffled = eligibleCards.sort(() => Math.random() - 0.5);
+  dailyDoubles.add(shuffled[0]);
+  dailyDoubles.add(shuffled[1]);
+  
+  console.log("Daily Doubles assigned to:", Array.from(dailyDoubles));
+}
+
+function showDailyDoubleReveal() {
+  // Show the exciting Daily Double reveal
+  ddRevealModal.style.display = "flex";
+  
+  // Generate team selection buttons
+  ddTeamSelect.innerHTML = "";
+  teams.forEach((team, index) => {
+    const btn = document.createElement("button");
+    btn.className = "dd-team-btn";
+    btn.style.backgroundColor = team.color;
+    btn.textContent = team.name;
+    btn.addEventListener("click", () => selectDDTeam(index));
+    ddTeamSelect.appendChild(btn);
+  });
+}
+
+function selectDDTeam(teamIndex) {
+  ddSelectedTeam = teamIndex;
+  ddRevealModal.style.display = "none";
+  showWagerModal();
+}
+
+function showWagerModal() {
+  const team = teams[ddSelectedTeam];
+  const maxBoardValue = 400; // Highest value on the board
+  const maxWager = Math.max(team.score, maxBoardValue);
+  
+  ddWagerTeam.textContent = team.name;
+  ddWagerTeam.style.backgroundColor = team.color;
+  ddCurrentScore.textContent = `$${team.score.toLocaleString()}`;
+  ddMaxWager.textContent = `$${maxWager.toLocaleString()}`;
+  
+  // Set input constraints
+  ddWagerInput.min = 5;
+  ddWagerInput.max = maxWager;
+  ddWagerInput.value = Math.min(100, maxWager);
+  
+  // Update quick wager buttons
+  document.querySelectorAll(".dd-quick-btn").forEach(btn => {
+    const amount = btn.dataset.amount;
+    if (amount === "max") {
+      btn.textContent = `ALL IN! ($${maxWager.toLocaleString()})`;
+    }
+  });
+  
+  ddWagerModal.style.display = "flex";
+}
+
+function confirmWager() {
+  const team = teams[ddSelectedTeam];
+  const maxBoardValue = 400;
+  const maxWager = Math.max(team.score, maxBoardValue);
+  
+  let wager = parseInt(ddWagerInput.value) || 5;
+  wager = Math.max(5, Math.min(wager, maxWager)); // Clamp between 5 and max
+  
+  ddWagerAmount = wager;
+  ddWagerModal.style.display = "none";
+  
+  // Now show the actual question
+  showDailyDoubleQuestion();
+}
+
+function showDailyDoubleQuestion() {
+  const { question, answer, source, cardElement, cardId } = currentQuestion;
+  
+  // Show the question modal with DD styling
+  qText.textContent = question;
+  questionValue.textContent = `Wager: $${ddWagerAmount.toLocaleString()}`;
+  answerText.textContent = answer;
+  sourceLink.href = source;
+  
+  // Show DD badge
+  ddBadge.style.display = "block";
+  
+  // Hide regular scoring, show DD scoring
+  scoringSection.style.display = "none";
+  ddScoringSection.style.display = "none";
+  
+  // Update DD scoring display
+  ddTeamNameDisplay.textContent = teams[ddSelectedTeam].name;
+  ddWinAmount.textContent = `$${ddWagerAmount.toLocaleString()}`;
+  ddLoseAmount.textContent = `$${ddWagerAmount.toLocaleString()}`;
+  
+  // Hide answer section initially
+  answerReveal.style.display = "none";
+  revealBtn.style.display = "block";
+  
+  // Show modal
+  qDiv.style.display = "flex";
+}
+
+function revealDailyDoubleAnswer() {
+  revealBtn.style.display = "none";
+  answerReveal.style.display = "flex";
+  ddScoringSection.style.display = "block";
+}
+
+function ddCorrect() {
+  teams[ddSelectedTeam].score += ddWagerAmount;
+  updateScoreDisplay(ddSelectedTeam);
+  closeDailyDouble();
+}
+
+function ddWrong() {
+  teams[ddSelectedTeam].score -= ddWagerAmount;
+  updateScoreDisplay(ddSelectedTeam);
+  closeDailyDouble();
+}
+
+function closeDailyDouble() {
+  qDiv.style.display = "none";
+  ddBadge.style.display = "none";
+  ddScoringSection.style.display = "none";
+  
+  // Mark question as answered
+  if (currentQuestion && currentQuestion.cardId) {
+    answeredQuestions.add(currentQuestion.cardId);
+    currentQuestion.cardElement.classList.add("answered");
+    currentQuestion.cardElement.innerHTML = "<p>✓</p>";
+  }
+  
+  // Reset DD state
+  isDailyDouble = false;
+  ddSelectedTeam = null;
+  ddWagerAmount = 0;
+  currentQuestion = null;
+  currentValue = 0;
+  
+  checkGameComplete();
+}
+
+// ============================================
 // QUESTION HANDLING
 // ============================================
 function showQuestion(question, answer, source, value, cardElement) {
@@ -158,6 +330,17 @@ function showQuestion(question, answer, source, value, cardElement) {
   currentQuestion = { question, answer, source, cardElement, cardId };
   currentValue = value;
   
+  // Check if this is a Daily Double
+  if (dailyDoubles.has(cardId)) {
+    isDailyDouble = true;
+    showDailyDoubleReveal();
+    return;
+  }
+  
+  // Regular question flow
+  isDailyDouble = false;
+  ddBadge.style.display = "none";
+  
   // Reset modal state
   qText.textContent = question;
   questionValue.textContent = `$${value}`;
@@ -168,6 +351,7 @@ function showQuestion(question, answer, source, value, cardElement) {
   answerReveal.style.display = "none";
   revealBtn.style.display = "block";
   scoringSection.style.display = "none";
+  ddScoringSection.style.display = "none";
   
   // Show modal
   qDiv.style.display = "flex";
@@ -176,10 +360,20 @@ function showQuestion(question, answer, source, value, cardElement) {
 function revealAnswer() {
   revealBtn.style.display = "none";
   answerReveal.style.display = "flex";
-  scoringSection.style.display = "block";
+  
+  if (isDailyDouble) {
+    ddScoringSection.style.display = "block";
+  } else {
+    scoringSection.style.display = "block";
+  }
 }
 
 function closeQuestion() {
+  if (isDailyDouble) {
+    closeDailyDouble();
+    return;
+  }
+  
   qDiv.style.display = "none";
   
   // Mark question as answered
@@ -215,6 +409,7 @@ teamCountSelect.addEventListener("change", generateTeamInputs);
 
 startGameBtn.addEventListener("click", () => {
   initializeTeams();
+  initializeDailyDoubles();
   renderScoreboard();
   renderTeamButtons();
   setupModal.style.display = "none";
@@ -226,6 +421,29 @@ closeBtn.addEventListener("click", closeQuestion);
 revealBtn.addEventListener("click", revealAnswer);
 
 noPointsBtn.addEventListener("click", closeQuestion);
+
+// Daily Double event listeners
+ddConfirmWager.addEventListener("click", confirmWager);
+
+ddCorrectBtn.addEventListener("click", ddCorrect);
+ddWrongBtn.addEventListener("click", ddWrong);
+
+// Quick wager buttons
+document.querySelectorAll(".dd-quick-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const amount = btn.dataset.amount;
+    if (amount === "max") {
+      const team = teams[ddSelectedTeam];
+      const maxBoardValue = 400;
+      ddWagerInput.value = Math.max(team.score, maxBoardValue);
+    } else {
+      const team = teams[ddSelectedTeam];
+      const maxBoardValue = 400;
+      const maxWager = Math.max(team.score, maxBoardValue);
+      ddWagerInput.value = Math.min(parseInt(amount), maxWager);
+    }
+  });
+});
 
 // ============================================
 // DATA LOADING & CARD CREATION
@@ -251,7 +469,7 @@ async function fetchData() {
     
     const cardCreator = new CardCreator(".container", cats, qArr);
     cardCreator.addCardsToContainer();
-    
+
     return data;
   } catch (error) {
     console.error("Error loading data:", error);
