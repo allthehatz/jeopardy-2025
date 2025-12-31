@@ -368,6 +368,68 @@ main {
   border: 3px solid var(--goldClr);
 }
 
+/* ============================================
+   COUNTDOWN TIMER
+   ============================================ */
+.countdown-timer {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 70px;
+  height: 70px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.countdown-timer.active {
+  display: flex;
+}
+
+.timer-svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.timer-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 6;
+}
+
+.timer-progress {
+  fill: none;
+  stroke: var(--goldClr);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
+}
+
+.countdown-timer.urgent .timer-progress {
+  stroke: #e74c3c;
+}
+
+.timer-text {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--goldClr);
+  z-index: 1;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.countdown-timer.urgent .timer-text {
+  color: #e74c3c;
+  animation: timerPulse 0.5s ease infinite;
+}
+
+@keyframes timerPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
 .question-value {
   font-size: 2rem;
   font-weight: 900;

@@ -9,6 +9,8 @@ let dailyDoubles = new Set(); // Card IDs that are Daily Doubles
 let isDailyDouble = false;
 let ddSelectedTeam = null;
 let ddWagerAmount = 0;
+let countdownInterval = null;
+let countdownTime = 10;
 
 // ============================================
 // DOM ELEMENTS
@@ -48,6 +50,11 @@ const ddWinAmount = document.querySelector("#ddWinAmount");
 const ddLoseAmount = document.querySelector("#ddLoseAmount");
 const ddCorrectBtn = document.querySelector("#ddCorrectBtn");
 const ddWrongBtn = document.querySelector("#ddWrongBtn");
+
+// Countdown timer elements
+const countdownTimer = document.querySelector("#countdownTimer");
+const timerText = document.querySelector("#timerText");
+const timerProgress = document.querySelector("#timerProgress");
 
 // ============================================
 // TEAM SETUP
@@ -167,6 +174,52 @@ function awardPoints(teamIndex) {
 }
 
 // ============================================
+// COUNTDOWN TIMER
+// ============================================
+function startCountdown() {
+  countdownTime = 10;
+  updateTimerDisplay();
+  countdownTimer.classList.add("active");
+  
+  // Reset the progress circle
+  const circumference = 2 * Math.PI * 45;
+  timerProgress.style.strokeDasharray = circumference;
+  timerProgress.style.strokeDashoffset = 0;
+  
+  countdownInterval = setInterval(() => {
+    countdownTime--;
+    updateTimerDisplay();
+    
+    // Update progress circle
+    const progress = (10 - countdownTime) / 10;
+    timerProgress.style.strokeDashoffset = circumference * progress;
+    
+    if (countdownTime <= 0) {
+      stopCountdown();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  timerText.textContent = countdownTime;
+  
+  // Add urgency styling when time is low
+  if (countdownTime <= 3) {
+    countdownTimer.classList.add("urgent");
+  } else {
+    countdownTimer.classList.remove("urgent");
+  }
+}
+
+function stopCountdown() {
+  if (countdownInterval) {
+    clearInterval(countdownInterval);
+    countdownInterval = null;
+  }
+  countdownTimer.classList.remove("active", "urgent");
+}
+
+// ============================================
 // DAILY DOUBLE LOGIC
 // ============================================
 function initializeDailyDoubles() {
@@ -273,8 +326,9 @@ function showDailyDoubleQuestion() {
   answerReveal.style.display = "none";
   revealBtn.style.display = "block";
   
-  // Show modal
+  // Show modal and start countdown
   qDiv.style.display = "flex";
+  startCountdown();
 }
 
 function revealDailyDoubleAnswer() {
@@ -299,6 +353,7 @@ function closeDailyDouble() {
   qDiv.style.display = "none";
   ddBadge.style.display = "none";
   ddScoringSection.style.display = "none";
+  stopCountdown();
   
   // Mark question as answered
   if (currentQuestion && currentQuestion.cardId) {
@@ -353,8 +408,9 @@ function showQuestion(question, answer, source, value, cardElement) {
   scoringSection.style.display = "none";
   ddScoringSection.style.display = "none";
   
-  // Show modal
+  // Show modal and start countdown
   qDiv.style.display = "flex";
+  startCountdown();
 }
 
 function revealAnswer() {
@@ -375,6 +431,7 @@ function closeQuestion() {
   }
   
   qDiv.style.display = "none";
+  stopCountdown();
   
   // Mark question as answered
   if (currentQuestion && currentQuestion.cardId) {
