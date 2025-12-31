@@ -12,6 +12,12 @@ let ddWagerAmount = 0;
 let countdownInterval = null;
 let countdownTime = 10;
 
+// Final Jeopardy state
+let finalJeopardyData = null;
+let fjWagers = {};
+let fjTimer = null;
+let fjTimeLeft = 30;
+
 // ============================================
 // DOM ELEMENTS
 // ============================================
@@ -55,6 +61,30 @@ const ddWrongBtn = document.querySelector("#ddWrongBtn");
 const countdownTimer = document.querySelector("#countdownTimer");
 const timerText = document.querySelector("#timerText");
 const timerProgress = document.querySelector("#timerProgress");
+
+// Final Jeopardy elements
+const fjCategoryModal = document.querySelector("#fjCategoryModal");
+const fjCategoryName = document.querySelector("#fjCategoryName");
+const fjStartWagers = document.querySelector("#fjStartWagers");
+const fjWagerModal = document.querySelector("#fjWagerModal");
+const fjTeamWagers = document.querySelector("#fjTeamWagers");
+const fjLockWagers = document.querySelector("#fjLockWagers");
+const fjQuestionModal = document.querySelector("#fjQuestionModal");
+const fjTimerFill = document.querySelector("#fjTimerFill");
+const fjTimerText = document.querySelector("#fjTimerText");
+const fjCategoryBadge = document.querySelector("#fjCategoryBadge");
+const fjQuestionText = document.querySelector("#fjQuestionText");
+const fjRevealAnswer = document.querySelector("#fjRevealAnswer");
+const fjAnswerModal = document.querySelector("#fjAnswerModal");
+const fjAnswerText = document.querySelector("#fjAnswerText");
+const fjSourceLink = document.querySelector("#fjSourceLink");
+const fjTeamScoring = document.querySelector("#fjTeamScoring");
+const fjShowResults = document.querySelector("#fjShowResults");
+const fjResultsModal = document.querySelector("#fjResultsModal");
+const fjWinnerName = document.querySelector("#fjWinnerName");
+const fjWinnerScore = document.querySelector("#fjWinnerScore");
+const fjFinalStandings = document.querySelector("#fjFinalStandings");
+const fjPlayAgain = document.querySelector("#fjPlayAgain");
 
 // ============================================
 // TEAM SETUP
@@ -449,14 +479,244 @@ function closeQuestion() {
 
 function checkGameComplete() {
   const totalQuestions = 24; // 6 categories × 4 questions
-  if (answeredQuestions.size === totalQuestions) {
+  if (answeredQuestions.size === totalQuestions && finalJeopardyData) {
+    // Start Final Jeopardy!
     setTimeout(() => {
-      const winner = teams.reduce((prev, curr) => 
-        prev.score > curr.score ? prev : curr
-      );
-      alert(`🎉 Game Over! 🎉\n\nWinner: ${winner.name} with $${winner.score.toLocaleString()}!\n\nHappy New Year!`);
+      startFinalJeopardy();
     }, 500);
   }
+}
+
+// ============================================
+// FINAL JEOPARDY
+// ============================================
+function startFinalJeopardy() {
+  // Show the category reveal
+  fjCategoryName.textContent = finalJeopardyData.category;
+  fjCategoryModal.style.display = "flex";
+}
+
+function showFJWagerPhase() {
+  fjCategoryModal.style.display = "none";
+  
+  // Generate wager inputs for each team
+  fjTeamWagers.innerHTML = "";
+  fjWagers = {};
+  
+  teams.forEach((team, index) => {
+    const maxWager = Math.max(0, team.score);
+    fjWagers[index] = 0;
+    
+    const wagerRow = document.createElement("div");
+    wagerRow.className = "fj-wager-row";
+    wagerRow.innerHTML = `
+      <div class="fj-wager-team-info">
+        <span class="fj-wager-dot" style="background-color: ${team.color}"></span>
+        <span class="fj-wager-name">${team.name}</span>
+        <span class="fj-wager-current">($${team.score.toLocaleString()})</span>
+      </div>
+      <div class="fj-wager-input-row">
+        <span class="fj-wager-dollar">$</span>
+        <input type="number" 
+               class="fj-team-wager-input" 
+               data-team="${index}"
+               min="0" 
+               max="${maxWager}"
+               value="0"
+               placeholder="0">
+        <button class="fj-all-in-btn" data-team="${index}" data-max="${maxWager}">All In</button>
+      </div>
+    `;
+    fjTeamWagers.appendChild(wagerRow);
+  });
+  
+  // Add All In button handlers
+  document.querySelectorAll(".fj-all-in-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const teamIdx = btn.dataset.team;
+      const max = btn.dataset.max;
+      const input = document.querySelector(`.fj-team-wager-input[data-team="${teamIdx}"]`);
+      input.value = max;
+    });
+  });
+  
+  fjWagerModal.style.display = "flex";
+}
+
+function lockFJWagers() {
+  // Collect all wagers
+  document.querySelectorAll(".fj-team-wager-input").forEach(input => {
+    const teamIdx = parseInt(input.dataset.team);
+    const maxWager = Math.max(0, teams[teamIdx].score);
+    let wager = parseInt(input.value) || 0;
+    wager = Math.max(0, Math.min(wager, maxWager));
+    fjWagers[teamIdx] = wager;
+  });
+  
+  fjWagerModal.style.display = "none";
+  showFJQuestion();
+}
+
+function showFJQuestion() {
+  fjCategoryBadge.textContent = finalJeopardyData.category;
+  fjQuestionText.textContent = finalJeopardyData.question;
+  fjQuestionModal.style.display = "flex";
+  
+  // Start 30-second timer
+  fjTimeLeft = 30;
+  fjTimerText.textContent = fjTimeLeft;
+  fjTimerFill.style.width = "100%";
+  
+  fjTimer = setInterval(() => {
+    fjTimeLeft--;
+    fjTimerText.textContent = fjTimeLeft;
+    fjTimerFill.style.width = `${(fjTimeLeft / 30) * 100}%`;
+    
+    // Change color when low
+    if (fjTimeLeft <= 10) {
+      fjTimerFill.classList.add("urgent");
+    }
+    
+    if (fjTimeLeft <= 0) {
+      clearInterval(fjTimer);
+      fjTimer = null;
+    }
+  }, 1000);
+}
+
+function showFJAnswer() {
+  // Stop timer if still running
+  if (fjTimer) {
+    clearInterval(fjTimer);
+    fjTimer = null;
+  }
+  
+  fjQuestionModal.style.display = "none";
+  
+  // Set up answer display
+  fjAnswerText.textContent = finalJeopardyData.answer;
+  fjSourceLink.href = finalJeopardyData.source;
+  
+  // Generate scoring for each team
+  fjTeamScoring.innerHTML = "";
+  
+  teams.forEach((team, index) => {
+    const wager = fjWagers[index];
+    const scoreRow = document.createElement("div");
+    scoreRow.className = "fj-score-row";
+    scoreRow.innerHTML = `
+      <div class="fj-score-team">
+        <span class="fj-score-dot" style="background-color: ${team.color}"></span>
+        <span class="fj-score-name">${team.name}</span>
+      </div>
+      <div class="fj-score-wager">Wagered: $${wager.toLocaleString()}</div>
+      <div class="fj-score-buttons">
+        <button class="fj-correct-btn" data-team="${index}" data-wager="${wager}">✓ Correct (+$${wager.toLocaleString()})</button>
+        <button class="fj-wrong-btn" data-team="${index}" data-wager="${wager}">✗ Wrong (-$${wager.toLocaleString()})</button>
+      </div>
+      <div class="fj-score-result" id="fj-result-${index}"></div>
+    `;
+    fjTeamScoring.appendChild(scoreRow);
+  });
+  
+  // Add button handlers
+  document.querySelectorAll(".fj-correct-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const teamIdx = parseInt(btn.dataset.team);
+      const wager = parseInt(btn.dataset.wager);
+      teams[teamIdx].score += wager;
+      updateScoreDisplay(teamIdx);
+      showFJResult(teamIdx, true, wager);
+      btn.disabled = true;
+      btn.parentElement.querySelector(".fj-wrong-btn").disabled = true;
+    });
+  });
+  
+  document.querySelectorAll(".fj-wrong-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const teamIdx = parseInt(btn.dataset.team);
+      const wager = parseInt(btn.dataset.wager);
+      teams[teamIdx].score -= wager;
+      updateScoreDisplay(teamIdx);
+      showFJResult(teamIdx, false, wager);
+      btn.disabled = true;
+      btn.parentElement.querySelector(".fj-correct-btn").disabled = true;
+    });
+  });
+  
+  fjAnswerModal.style.display = "flex";
+}
+
+function showFJResult(teamIdx, correct, wager) {
+  const resultEl = document.querySelector(`#fj-result-${teamIdx}`);
+  if (correct) {
+    resultEl.innerHTML = `<span class="fj-result-correct">+$${wager.toLocaleString()}</span>`;
+  } else {
+    resultEl.innerHTML = `<span class="fj-result-wrong">-$${wager.toLocaleString()}</span>`;
+  }
+}
+
+function showFinalResults() {
+  fjAnswerModal.style.display = "none";
+  
+  // Sort teams by score
+  const sortedTeams = [...teams].sort((a, b) => b.score - a.score);
+  const winner = sortedTeams[0];
+  
+  // Check for tie
+  const topScore = winner.score;
+  const winners = sortedTeams.filter(t => t.score === topScore);
+  
+  if (winners.length > 1) {
+    fjWinnerName.textContent = "🎉 It's a TIE! 🎉";
+    fjWinnerName.style.backgroundColor = "transparent";
+    fjWinnerScore.textContent = winners.map(w => w.name).join(" & ");
+  } else {
+    fjWinnerName.textContent = winner.name;
+    fjWinnerName.style.backgroundColor = winner.color;
+    fjWinnerScore.textContent = `$${winner.score.toLocaleString()}`;
+  }
+  
+  // Show all standings
+  fjFinalStandings.innerHTML = "<h3>Final Standings</h3>";
+  sortedTeams.forEach((team, index) => {
+    const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : "";
+    const standing = document.createElement("div");
+    standing.className = "fj-standing";
+    standing.innerHTML = `
+      <span class="fj-standing-rank">${medal} #${index + 1}</span>
+      <span class="fj-standing-name" style="color: ${team.color}">${team.name}</span>
+      <span class="fj-standing-score">$${team.score.toLocaleString()}</span>
+    `;
+    fjFinalStandings.appendChild(standing);
+  });
+  
+  fjResultsModal.style.display = "flex";
+}
+
+function resetGame() {
+  // Reset all state
+  teams = [];
+  currentQuestion = null;
+  currentValue = 0;
+  answeredQuestions.clear();
+  dailyDoubles.clear();
+  isDailyDouble = false;
+  ddSelectedTeam = null;
+  ddWagerAmount = 0;
+  fjWagers = {};
+  
+  // Hide all modals
+  fjResultsModal.style.display = "none";
+  
+  // Clear the game board
+  document.querySelector(".container").innerHTML = "";
+  
+  // Re-fetch data and show setup
+  fetchData();
+  generateTeamInputs();
+  setupModal.style.display = "flex";
+  scoreboard.style.display = "none";
 }
 
 // ============================================
@@ -502,6 +762,13 @@ document.querySelectorAll(".dd-quick-btn").forEach(btn => {
   });
 });
 
+// Final Jeopardy event listeners
+fjStartWagers.addEventListener("click", showFJWagerPhase);
+fjLockWagers.addEventListener("click", lockFJWagers);
+fjRevealAnswer.addEventListener("click", showFJAnswer);
+fjShowResults.addEventListener("click", showFinalResults);
+fjPlayAgain.addEventListener("click", resetGame);
+
 // ============================================
 // DATA LOADING & CARD CREATION
 // ============================================
@@ -514,9 +781,21 @@ async function fetchData() {
     const response = await fetch("./data.json");
     const data = await response.json();
     
+    // Clear previous data
+    objArr.length = 0;
+    cats.length = 0;
+    qArr.length = 0;
+    
     for (const obj of data) {
+      // Check if this is Final Jeopardy
+      if (obj.finalJeopardy) {
+        finalJeopardyData = obj;
+        console.log("Final Jeopardy loaded:", obj.category);
+      } else {
       objArr.push(obj);
+      }
     }
+    
     for (let cat in objArr) {
       cats.push(objArr[cat].category);
     }

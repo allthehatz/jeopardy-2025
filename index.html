@@ -69,6 +69,77 @@
       </div>
     </div>
 
+    <!-- Final Jeopardy Category Reveal -->
+    <div class="fj-modal" id="fjCategoryModal">
+      <div class="fj-category-content">
+        <div class="fj-intro">
+          <span class="fj-star">★</span>
+          <span class="fj-star">★</span>
+          <span class="fj-star">★</span>
+        </div>
+        <h1 class="fj-title">FINAL JEOPARDY!</h1>
+        <p class="fj-category-label">The category is...</p>
+        <h2 class="fj-category-name" id="fjCategoryName">Category Name</h2>
+        <button id="fjStartWagers" class="fj-btn">Begin Wagering</button>
+      </div>
+    </div>
+
+    <!-- Final Jeopardy Wagering Phase -->
+    <div class="fj-modal" id="fjWagerModal">
+      <div class="fj-wager-content">
+        <h2 class="fj-wager-header">Final Jeopardy Wagers</h2>
+        <p class="fj-wager-subtitle">Each team: enter your wager (up to your current score)</p>
+        <div class="fj-team-wagers" id="fjTeamWagers">
+          <!-- Team wager inputs will be generated here -->
+        </div>
+        <button id="fjLockWagers" class="fj-btn">Lock All Wagers & Show Question</button>
+      </div>
+    </div>
+
+    <!-- Final Jeopardy Question -->
+    <div class="fj-modal" id="fjQuestionModal">
+      <div class="fj-question-content">
+        <div class="fj-timer-bar">
+          <div class="fj-timer-fill" id="fjTimerFill"></div>
+        </div>
+        <div class="fj-timer-text" id="fjTimerText">30</div>
+        <div class="fj-category-badge" id="fjCategoryBadge">Category</div>
+        <h1 class="fj-question" id="fjQuestionText">Final Jeopardy Question</h1>
+        <button id="fjRevealAnswer" class="fj-btn fj-reveal-btn">🎵 Time's Up - Reveal Answer 🎵</button>
+      </div>
+    </div>
+
+    <!-- Final Jeopardy Answer & Scoring -->
+    <div class="fj-modal" id="fjAnswerModal">
+      <div class="fj-answer-content">
+        <h2 class="fj-answer-header">The Correct Response</h2>
+        <p class="fj-answer-text" id="fjAnswerText">Answer goes here</p>
+        <a class="fj-source-link" id="fjSourceLink" href="#" target="_blank">📚 View Source</a>
+        
+        <h3 class="fj-scoring-header">Score Each Team</h3>
+        <div class="fj-team-scoring" id="fjTeamScoring">
+          <!-- Team scoring will be generated here -->
+        </div>
+        
+        <button id="fjShowResults" class="fj-btn fj-results-btn">Show Final Results!</button>
+      </div>
+    </div>
+
+    <!-- Final Results / Winner -->
+    <div class="fj-modal" id="fjResultsModal">
+      <div class="fj-results-content">
+        <div class="fj-confetti">🎊</div>
+        <h1 class="fj-winner-title">🏆 WINNER! 🏆</h1>
+        <div class="fj-winner-name" id="fjWinnerName">Team Name</div>
+        <div class="fj-winner-score" id="fjWinnerScore">$0</div>
+        <div class="fj-final-standings" id="fjFinalStandings">
+          <!-- All team final scores -->
+        </div>
+        <p class="fj-thanks">Thanks for playing! Happy New Year! 🎉</p>
+        <button id="fjPlayAgain" class="fj-btn">Play Again</button>
+      </div>
+    </div>
+
     <!-- Scoreboard -->
     <div class="scoreboard" id="scoreboard">
       <!-- Team scores will be generated here -->
