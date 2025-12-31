@@ -385,6 +385,11 @@ function closeDailyDouble() {
   ddScoringSection.style.display = "none";
   stopCountdown();
   
+  // Reset modal state to prevent showing answer on next question
+  answerReveal.style.display = "none";
+  revealBtn.style.display = "block";
+  scoringSection.style.display = "none";
+  
   // Mark question as answered
   if (currentQuestion && currentQuestion.cardId) {
     answeredQuestions.add(currentQuestion.cardId);
@@ -462,6 +467,11 @@ function closeQuestion() {
   
   qDiv.style.display = "none";
   stopCountdown();
+  
+  // Reset modal state to prevent showing answer on next question
+  answerReveal.style.display = "none";
+  revealBtn.style.display = "block";
+  scoringSection.style.display = "none";
   
   // Mark question as answered
   if (currentQuestion && currentQuestion.cardId) {
