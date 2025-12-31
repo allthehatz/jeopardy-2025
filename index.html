@@ -3,28 +3,77 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jeopardy</title>
+    <title>2025 Jeopardy - New Year's Edition</title>
     <link
-    rel="icon"
-    type="image/png"
-    href="https://www.google.com/s2/u/0/favicons?domain=heydeja.com"
-  />
+      rel="icon"
+      type="image/png"
+      href="https://www.google.com/s2/u/0/favicons?domain=heydeja.com"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Team Setup Modal -->
+    <div class="setup-modal" id="setupModal">
+      <div class="setup-content">
+        <h1>🎉 2025 New Year's Jeopardy! 🎉</h1>
+        <h2>Team Setup</h2>
+        <div class="team-count-selector">
+          <label for="teamCount">Number of Teams:</label>
+          <select id="teamCount">
+            <option value="3">3 Teams</option>
+            <option value="4" selected>4 Teams</option>
+            <option value="5">5 Teams</option>
+            <option value="6">6 Teams</option>
+          </select>
+        </div>
+        <div class="team-names" id="teamNames">
+          <!-- Team name inputs will be generated here -->
+        </div>
+        <button id="startGameBtn" class="start-btn">Start Game!</button>
+      </div>
+    </div>
+
+    <!-- Scoreboard -->
+    <div class="scoreboard" id="scoreboard">
+      <!-- Team scores will be generated here -->
+    </div>
+
     <header>
-      <h1>Jeopardy</h1>
+      <h1>2025 Jeopardy!</h1>
     </header>
+    
     <main>
       <div class="container"></div>
+      
+      <!-- Question Modal -->
       <div class="qDiv" id="qDiv">
-        <h1 id="qText">What is the test question saying here?</h1>
-        <button id="closeBtn"> <p>close</p></button>
-    </div>
+        <div class="question-value" id="questionValue">$100</div>
+        <h1 id="qText">Question goes here</h1>
+        
+        <div class="answer-section" id="answerSection">
+          <button id="revealBtn" class="reveal-btn">Reveal Answer</button>
+          <div class="answer-reveal" id="answerReveal">
+            <p class="answer-text" id="answerText"></p>
+            <a class="source-link" id="sourceLink" href="#" target="_blank">📚 View Source</a>
+          </div>
+        </div>
+        
+        <div class="scoring-section" id="scoringSection">
+          <p class="scoring-prompt">Award points to:</p>
+          <div class="team-buttons" id="teamButtons">
+            <!-- Team scoring buttons will be generated here -->
+          </div>
+          <button id="noPointsBtn" class="no-points-btn">No One Got It</button>
+        </div>
+        
+        <button id="closeBtn" class="close-btn">Close</button>
+      </div>
     </main>
+    
     <footer>
-      <p>Created By: LowPolyPrincess 2023</p>
+      <p>New Year's Eve 2025 🎊</p>
     </footer>
+    
     <script src="./main.js"></script>
   </body>
 </html>

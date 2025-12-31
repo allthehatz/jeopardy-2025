@@ -1,130 +1,176 @@
 [
   {
-    "category": "Diaper Duty Delights",
+    "category": "Disasters of 2025",
     "questions": [
       {
         "id": 1,
-        "question": "What is the main purpose of a diaper?"
+        "question": "This Los Angeles neighborhood suffered extensive damage from wildfires in January, with estimated costs of $76–131 billion.",
+        "answer": "What is Pacific Palisades?",
+        "source": "https://en.wikipedia.org/wiki/January_2025_Southern_California_wildfires"
       },
       {
         "id": 2,
-        "question": "Name three alternative diaper-changing tools besides wipes."
+        "question": "In July, flash floods in this U.S. state killed at least 135 people, including 27 from Camp Mystic, a girls' summer camp.",
+        "answer": "What is Texas?",
+        "source": "https://en.wikipedia.org/wiki/2025_Texas_floods"
       },
       {
         "id": 3,
-        "question": "True or false: Cloth diapers are considered an eco-friendly diapering option."
+        "question": "A magnitude-7.7 earthquake struck this Southeast Asian country in March, causing more than 3,600 deaths.",
+        "answer": "What is Myanmar (Burma)?",
+        "source": "https://en.wikipedia.org/wiki/2025_Myanmar_earthquake"
       },
       {
         "id": 4,
-        "question": "What is the average number of diaper changes a newborn baby requires per day?"
+        "question": "This volcano in Ethiopia erupted in November for the first time in approximately 12,000 years.",
+        "answer": "What is Hayli Gubbi?",
+        "source": "https://en.wikipedia.org/wiki/Hayli_Gubbi"
       }
     ]
   },
   {
-    "category": "Adorable Animal Kingdom",
+    "category": "World Leaders 2025",
     "questions": [
       {
         "id": 1,
-        "question": "What is the baby of a cat called?"
+        "question": "At age 78, this person became the oldest to win the U.S. presidency and the second to serve nonconsecutive terms.",
+        "answer": "Who is Donald Trump?",
+        "source": "https://en.wikipedia.org/wiki/Inauguration_of_Donald_Trump_(2025)"
       },
       {
         "id": 2,
-        "question": "True or false: A baby kangaroo is called a joey."
+        "question": "Cardinal Robert Francis Prevost became the first American pope in history, taking this papal name.",
+        "answer": "What is Leo XIV?",
+        "source": "https://en.wikipedia.org/wiki/Pope_Leo_XIV"
       },
       {
         "id": 3,
-        "question": "Name three animals that are known to give birth to live young instead of laying eggs."
+        "question": "In October, Sanae Takaichi became this Asian country's first female prime minister.",
+        "answer": "What is Japan?",
+        "source": "https://en.wikipedia.org/wiki/Sanae_Takaichi"
       },
       {
         "id": 4,
-        "question": "Which animal is often associated with the phrase 'slow and steady wins the race'?"
+        "question": "Netumbo Nandi-Ndaitwah became the first female president of this African nation in March.",
+        "answer": "What is Namibia?",
+        "source": "https://en.wikipedia.org/wiki/Netumbo_Nandi-Ndaitwah"
       }
     ]
   },
   {
-    "category": "Magical Nursery Tales",
+    "category": "Pop Culture Moments",
     "questions": [
       {
         "id": 1,
-        "question": "In the nursery rhyme 'Hey Diddle Diddle,' what did the cow jump over?"
+        "question": "This megastar extended her Grammy record to 35 wins and became the first Black woman to win best country album.",
+        "answer": "Who is Beyoncé?",
+        "source": "https://en.wikipedia.org/wiki/67th_Annual_Grammy_Awards"
       },
       {
         "id": 2,
-        "question": "Who is the famous author of the children's book 'Goodnight Moon'?"
+        "question": "Pop star Taylor Swift and this Kansas City Chiefs tight end announced their engagement in August.",
+        "answer": "Who is Travis Kelce?",
+        "source": "https://en.wikipedia.org/wiki/Travis_Kelce"
       },
       {
         "id": 3,
-        "question": "Which character falls asleep after eating a bowl of porridge in the fairy tale 'Goldilocks and the Three Bears'?"
+        "question": "This animated Netflix film about a K-pop trio who secretly hunt demons became the platform's most-watched movie of all time.",
+        "answer": "What is KPop Demon Hunters?",
+        "source": "https://en.wikipedia.org/wiki/K-pop_Demon_Hunters"
       },
       {
         "id": 4,
-        "question": "In the story of 'The Ugly Duckling,' what does the duckling eventually transform into?"
+        "question": "Rebecca Yarros published 'Onyx Storm,' the third book in this dragon-themed 'romantasy' series that broke sales records.",
+        "answer": "What is the Empyrean series?",
+        "source": "https://en.wikipedia.org/wiki/Empyrean_(novel_series)"
       }
     ]
   },
   {
-    "category": "Adorable Animal Kingdom",
+    "category": "Historic Firsts",
     "questions": [
       {
         "id": 1,
-        "question": "What is the baby of a cat called?"
+        "question": "In January, this Southeast Asian country became the first in its region to legalize same-sex marriage.",
+        "answer": "What is Thailand?",
+        "source": "https://en.wikipedia.org/wiki/Same-sex_marriage_in_Thailand"
       },
       {
         "id": 2,
-        "question": "True or false: A baby kangaroo is called a joey."
+        "question": "Firefly Aerospace's Blue Ghost became the first commercial spacecraft to accomplish this lunar feat in March.",
+        "answer": "What is a soft landing on the Moon?",
+        "source": "https://en.wikipedia.org/wiki/Blue_Ghost_Mission_1"
       },
       {
         "id": 3,
-        "question": "Name three animals that are known to give birth to live young instead of laying eggs."
+        "question": "In March, researchers captured the first confirmed live footage of this massive deep-sea creature in its natural habitat.",
+        "answer": "What is a colossal squid?",
+        "source": "https://en.wikipedia.org/wiki/Colossal_squid"
       },
       {
         "id": 4,
-        "question": "Which animal is often associated with the phrase 'slow and steady wins the race'?"
-      }
-    
-    ]
-  },
-  {
-    "category": "Yummy Baby Food Adventures",
-    "questions": [
-      {
-        "id": 1,
-        "question": "Name three common first foods introduced to babies during the weaning process."
-      },
-      {
-        "id": 2,
-        "question": "True or false: Avocado is a popular ingredient in homemade baby food due to its nutritional benefits."
-      },
-      {
-        "id": 3,
-        "question": "What is the process of transitioning a baby from a liquid diet to solid foods called?"
-      },
-      {
-        "id": 4,
-        "question": "What is the recommended age for introducing solid foods to infants?"
+        "question": "In November, the United States stopped producing this coin, first minted in 1793, because it cost more to make than its face value.",
+        "answer": "What is the penny?",
+        "source": "https://en.wikipedia.org/wiki/Penny_(United_States_coin)"
       }
     ]
   },
   {
-    "category": "Giggle-Worthy Milestones",
+    "category": "Sports Champions",
     "questions": [
       {
         "id": 1,
-        "question": "True or false: The average age for a baby's first tooth to emerge is around 6 months."
+        "question": "This NFL team defeated the Kansas City Chiefs 40–22 to win Super Bowl LIX in February.",
+        "answer": "Who are the Philadelphia Eagles?",
+        "source": "https://en.wikipedia.org/wiki/Super_Bowl_LIX"
       },
       {
         "id": 2,
-        "question": "What is the term for a baby's first deliberate movement, often seen as a response to stimuli?"
+        "question": "This hockey team won their second consecutive Stanley Cup by defeating the Edmonton Oilers in June.",
+        "answer": "Who are the Florida Panthers?",
+        "source": "https://en.wikipedia.org/wiki/2025_Stanley_Cup_Finals"
       },
       {
         "id": 3,
-        "question": "Name three typical milestones that babies achieve during their first year."
+        "question": "Led by Shohei Ohtani, this team won back-to-back World Series titles in November.",
+        "answer": "Who are the Los Angeles Dodgers?",
+        "source": "https://en.wikipedia.org/wiki/2025_World_Series"
       },
       {
         "id": 4,
-        "question": "What is the common milestone that involves a baby rolling over for the first time?"
+        "question": "This NBA team, formerly the Seattle SuperSonics, won its first championship since relocating by defeating the Indiana Pacers.",
+        "answer": "Who are the Oklahoma City Thunder?",
+        "source": "https://en.wikipedia.org/wiki/2025_NBA_Finals"
       }
-
+    ]
+  },
+  {
+    "category": "Space & Science",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Astronauts Sunita Williams and Barry Wilmore returned to Earth after this many days in space, far longer than their planned week-long stay.",
+        "answer": "What is 286 days?",
+        "source": "https://en.wikipedia.org/wiki/Boeing_Crew_Flight_Test"
+      },
+      {
+        "id": 2,
+        "question": "In August, OpenAI released this AI model, described as a major advance in reasoning and autonomy.",
+        "answer": "What is ChatGPT-5?",
+        "source": "https://en.wikipedia.org/wiki/ChatGPT"
+      },
+      {
+        "id": 3,
+        "question": "The Vera C. Rubin Observatory released its first images in June; it's capable of photographing this celestial scope.",
+        "answer": "What is the entire visible sky?",
+        "source": "https://en.wikipedia.org/wiki/Vera_C._Rubin_Observatory"
+      },
+      {
+        "id": 4,
+        "question": "Discovered in July, Comet 3I/ATLAS is notable for being this type of object—possibly the oldest known comet.",
+        "answer": "What is an interstellar object?",
+        "source": "https://en.wikipedia.org/wiki/3I/ATLAS"
+      }
     ]
   }
 ]
