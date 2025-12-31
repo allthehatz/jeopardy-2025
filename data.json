@@ -35,7 +35,7 @@
         "id": 1,
         "question": "At age 78, this person became the oldest to win the U.S. presidency and the second to serve nonconsecutive terms.",
         "answer": "Who is Donald Trump?",
-        "source": "https://en.wikipedia.org/wiki/Inauguration_of_Donald_Trump_(2025)"
+        "source": "https://en.wikipedia.org/wiki/Second_inauguration_of_Donald_Trump"
       },
       {
         "id": 2,
@@ -76,13 +76,13 @@
         "id": 3,
         "question": "This animated Netflix film about a K-pop trio who secretly hunt demons became the platform's most-watched movie of all time.",
         "answer": "What is KPop Demon Hunters?",
-        "source": "https://en.wikipedia.org/wiki/K-pop_Demon_Hunters"
+        "source": "https://en.wikipedia.org/wiki/K-Pop:_Demon_Hunters"
       },
       {
         "id": 4,
         "question": "Rebecca Yarros published 'Onyx Storm,' the third book in this dragon-themed 'romantasy' series that broke sales records.",
         "answer": "What is the Empyrean series?",
-        "source": "https://en.wikipedia.org/wiki/Empyrean_(novel_series)"
+        "source": "https://en.wikipedia.org/wiki/Onyx_Storm"
       }
     ]
   },
