@@ -61,6 +61,7 @@ const ddWrongBtn = document.querySelector("#ddWrongBtn");
 const countdownTimer = document.querySelector("#countdownTimer");
 const timerText = document.querySelector("#timerText");
 const timerProgress = document.querySelector("#timerProgress");
+const themeSong = document.querySelector("#themeSong");
 
 // Final Jeopardy elements
 const fjCategoryModal = document.querySelector("#fjCategoryModal");
@@ -211,6 +212,12 @@ function startCountdown() {
   updateTimerDisplay();
   countdownTimer.classList.add("active");
   
+  // Play the Jeopardy theme song
+  if (themeSong) {
+    themeSong.currentTime = 0;
+    themeSong.play().catch(e => console.log("Audio play prevented:", e));
+  }
+  
   // Reset the progress circle
   const circumference = 2 * Math.PI * 45;
   timerProgress.style.strokeDasharray = circumference;
@@ -247,6 +254,12 @@ function stopCountdown() {
     countdownInterval = null;
   }
   countdownTimer.classList.remove("active", "urgent");
+  
+  // Stop the theme song
+  if (themeSong) {
+    themeSong.pause();
+    themeSong.currentTime = 0;
+  }
 }
 
 // ============================================
@@ -451,6 +464,9 @@ function showQuestion(question, answer, source, value, cardElement) {
 function revealAnswer() {
   revealBtn.style.display = "none";
   answerReveal.style.display = "flex";
+  
+  // Stop countdown and music when answer is revealed
+  stopCountdown();
   
   if (isDailyDouble) {
     ddScoringSection.style.display = "block";
